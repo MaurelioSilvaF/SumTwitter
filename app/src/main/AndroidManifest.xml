@@ -34,10 +34,6 @@
             android:value="4e7be8b664f87214cb6301cd5850698bd2847c01" />
 
         <activity
-            android:name=".SampleActivity"
-            android:label="@string/title_activity_sample" >
-        </activity>
-        <activity
             android:name=".TimeLineActivity"
             android:label="@string/title_activity_time_line" >
         </activity>

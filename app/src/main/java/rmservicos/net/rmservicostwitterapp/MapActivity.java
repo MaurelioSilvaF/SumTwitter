@@ -16,12 +16,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +65,7 @@ public class MapActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Sorry! Unable to create maps", Toast.LENGTH_SHORT).show();
             } else {
                 // Create two variables to position the map
-                LatLng lat1 = new LatLng(-27.596944,  -48.548889);
+                LatLng lat1 = new LatLng(-27.596944, -48.548889);
 
                 // if exists twitts with coordinates create the markers on the map and
                 // save the first position to position on center of map
@@ -99,11 +95,20 @@ public class MapActivity extends Activity {
                                 public void run() {
                                     if (locais != null) {
                                         for (int i = 0; i < locais.size(); i++) {
-                                            googleMap.addMarker(new MarkerOptions()
-                                                    .position(new LatLng(locais.get(i).getnLatitude(), locais.get(i).getnLongitude()))
-                                                    .title(locais.get(i).getsAutor())
-                                                    .snippet(locais.get(i).getsDescricao())
-                                                    .icon(BitmapDescriptorFactory.fromBitmap(locais.get(i).getBitmap())));
+                                            if (locais.get(i).getBitmap() != null) {
+                                                googleMap.addMarker(new MarkerOptions()
+                                                        .position(new LatLng(locais.get(i).getnLatitude(), locais.get(i).getnLongitude()))
+                                                        .title(locais.get(i).getsAutor())
+                                                        .snippet(locais.get(i).getsDescricao())
+                                                        .alpha(locais.get(i).getnId())
+                                                        .icon(BitmapDescriptorFactory.fromBitmap(locais.get(i).getBitmap())));
+                                            } else {
+                                                googleMap.addMarker(new MarkerOptions()
+                                                        .position(new LatLng(locais.get(i).getnLatitude(), locais.get(i).getnLongitude()))
+                                                        .title(locais.get(i).getsAutor())
+                                                        .snippet(locais.get(i).getsDescricao())
+                                                        .alpha(locais.get(i).getnId()));
+                                            }
                                         }
                                     }
                                 }
@@ -112,8 +117,7 @@ public class MapActivity extends Activity {
                     });
                     thread.start();
 
-                } else
-                {
+                } else {
                     Toast.makeText(getBaseContext(), "No twitts with coordinates to show in map!", Toast.LENGTH_SHORT).show();
                 }
                 // Set type of map to satellite
